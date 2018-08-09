@@ -9,6 +9,7 @@ var express = require('express'),
  mongoClient = require('mongodb').MongoClient,
  jwt = require('jsonwebtoken'),
  web3Conn = require('./conns/web3conn');
+ const appUser = require('./appRegistration/routes/registerRoutes');
  
 //connecting to db
 mongoose.Promise = require('bluebird');
@@ -68,6 +69,14 @@ app.get('/login',function(req,res){res.render('login',{title:'E-Voting | Login'}
 app.get('/register',function(req,res){res.render('register',{title:'E-Voting | Register'});});
 app.get('/ballot',function(req,res){res.render('ballot',{title:'E-Voting | Create Ballot'});});
 app.use('/api', require('./app/api'));
+app.use('/appUser', appUser)
+
+
+//MongoDb connection for testing purpose
+//connect to mongoDB and start server
+mongoose.connect(process.env.mongoDBURL, () => {
+    console.log('Connected to MongoDB')
+}).catch(err => console.log('Error while connecting DB', err))
 
 //listen and start the server
 app.listen(port);
