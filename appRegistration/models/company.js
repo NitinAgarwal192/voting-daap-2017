@@ -4,7 +4,7 @@ const company = (data) => {
             return new Comp({
                 companyId: data.attributes.companyId,
                 companyName: data.attributes.companyName,
-                publicKey: data.attributes.publicKey,
+                publicToken: data.attributes.publicToken,
                 other: data.attributes.other,
                 })
                 .save()

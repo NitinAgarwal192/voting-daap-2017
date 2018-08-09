@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const user = require('../models/userAuth')
+const user = require('../models/userLogin')
 const serialize = require('../common/serialize')
 
 // user registration end point

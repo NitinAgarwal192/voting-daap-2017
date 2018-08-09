@@ -7,9 +7,11 @@ var express = require('express'),
  morgan = require('morgan'),
  mongoose =require('mongoose'),
  mongoClient = require('mongodb').MongoClient,
- jwt = require('jsonwebtoken'),
- web3Conn = require('./conns/web3conn');
- const appUser = require('./appRegistration/routes/registerRoutes');
+ jwt = require('jsonwebtoken');
+//  web3Conn = require('./conns/web3conn');
+ const userRegister = require('./appRegistration/routes/registerRoutes');
+ const userLogin = require('./appRegistration/routes/loginRoutes');
+ const company = require('./appRegistration/routes/companyRoutes');
  
 //connecting to db
 mongoose.Promise = require('bluebird');
@@ -26,7 +28,7 @@ dbConn.connection().then(function(res){
 
 //connecting to ethereum
 console.log('server : Before connecting to ethereum');
-global.web3 =  web3Conn.web3Meth();
+// global.web3 =  web3Conn.web3Meth();
 console.log('server : After connecting to ethereum');
 
 //setting secret variable 
@@ -69,12 +71,14 @@ app.get('/login',function(req,res){res.render('login',{title:'E-Voting | Login'}
 app.get('/register',function(req,res){res.render('register',{title:'E-Voting | Register'});});
 app.get('/ballot',function(req,res){res.render('ballot',{title:'E-Voting | Create Ballot'});});
 app.use('/api', require('./app/api'));
-app.use('/appUser', appUser)
+app.use('/appRegister', userRegister);
+app.use('/appLogin', userLogin);
+app.use('/company', company);
 
 
 //MongoDb connection for testing purpose
 //connect to mongoDB and start server
-mongoose.connect(process.env.mongoDBURL, () => {
+mongoose.connect('mongodb://store:store123@ds163630.mlab.com:63630/daily-store-rating-system', () => {
     console.log('Connected to MongoDB')
 }).catch(err => console.log('Error while connecting DB', err))
 
